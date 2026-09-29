@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, ArrowUpRight, Sparkles, Maximize2, Upload, RefreshCw, Camera, X, ZoomIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Play, ArrowUpRight, Sparkles, Maximize2, X, ZoomIn } from 'lucide-react';
 import { ProfileData, Language, getCreatorName } from '../types/portfolio';
 import { TranslationDictionary } from '../data/translations';
 
 interface HeroProps {
   profile: ProfileData;
   onOpenShowreel: () => void;
-  onUploadPhoto?: (photoUrl: string) => void;
-  onResetPhoto?: () => void;
   t: TranslationDictionary['hero'];
   lang: Language;
 }
@@ -15,8 +13,6 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   profile,
   onOpenShowreel,
-  onUploadPhoto,
-  onResetPhoto,
   t,
   lang,
 }) => {
@@ -24,7 +20,6 @@ export const Hero: React.FC<HeroProps> = ({
   const [scrollY, setScrollY] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [isEnlarged, setIsEnlarged] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const displayName = getCreatorName(profile, lang);
 
@@ -46,20 +41,6 @@ export const Hero: React.FC<HeroProps> = ({
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && onUploadPhoto) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          onUploadPhoto(result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const currentPhoto = profile.customPhoto || '/profile.jpg';
@@ -187,7 +168,7 @@ export const Hero: React.FC<HeroProps> = ({
                   <img
                     src={currentPhoto}
                     alt={displayName}
-                    className="w-full h-full object-cover object-top filter contrast-105 transition-transform duration-700 ease-out group-hover/photo:scale-105"
+                    className="w-full h-full object-cover object-center filter contrast-105 transition-transform duration-700 ease-out group-hover/photo:scale-105"
                   />
 
                   {/* Gradient film tint */}
@@ -213,38 +194,15 @@ export const Hero: React.FC<HeroProps> = ({
                     </span>
                   </div>
 
-                  {/* Floating Action: Upload / Change Photo trigger */}
-                  <div
-                    className="absolute inset-x-3 bottom-3 flex items-center gap-2"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      title={t.uploadTooltip}
-                      className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-black/80 hover:bg-[#25D366] hover:text-[#06120E] text-white border border-emerald-500/40 backdrop-blur-md text-xs font-mono font-medium transition-all shadow-lg active:scale-95"
-                    >
-                      <Camera className="w-3.5 h-3.5" />
-                      <span>{t.changePhoto}</span>
-                    </button>
-
-                    {profile.customPhoto && onResetPhoto && (
-                      <button
-                        type="button"
-                        onClick={onResetPhoto}
-                        title="Reset to default photo"
-                        className="p-2 rounded-xl bg-black/80 hover:bg-red-500/20 text-zinc-300 hover:text-red-400 border border-white/10 transition-colors"
-                      >
-                        <RefreshCw className="w-3.5 h-3.5" />
-                      </button>
-                    )}
+                  {/* Clean Official Creator Badge on Photo Base */}
+                  <div className="absolute inset-x-3 bottom-3 p-2.5 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-between pointer-events-none">
+                    <span className="font-mono text-[11px] text-zinc-200 font-semibold tracking-wide">
+                      {displayName}
+                    </span>
+                    <span className="font-mono text-[10px] text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
+                      <span>OFFICIAL</span>
+                    </span>
                   </div>
                 </div>
 
@@ -356,17 +314,17 @@ export const Hero: React.FC<HeroProps> = ({
               </button>
             </div>
 
-            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-black shadow-inner">
+            <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-black shadow-inner">
               <img
                 src={currentPhoto}
                 alt={displayName}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-center"
               />
             </div>
 
             <div className="p-3 text-center">
               <p className="text-xs font-mono text-emerald-400">
-                {t.photoCredit || `Photo: ${displayName}`}
+                {displayName} • Official Portrait
               </p>
               <p className="text-[11px] text-zinc-400 font-mono mt-1">
                 Click outside or press Close to dismiss

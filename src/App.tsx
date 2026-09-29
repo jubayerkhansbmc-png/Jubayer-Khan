@@ -56,6 +56,7 @@ export default function App() {
         return {
           ...initialProfileData,
           ...parsed,
+          customPhoto: undefined,
           socials: mergedSocials,
           creatorName: parsed.creatorName || initialProfileData.creatorName,
           creatorNameBn: parsed.creatorNameBn || initialProfileData.creatorNameBn,
@@ -163,16 +164,6 @@ export default function App() {
     setIsEditorOpen(false);
   };
 
-  const handleUploadPhoto = (photoUrl: string) => {
-    const updated = { ...profile, customPhoto: photoUrl };
-    handleSaveProfile(updated);
-  };
-
-  const handleResetPhoto = () => {
-    const updated = { ...profile, customPhoto: undefined };
-    handleSaveProfile(updated);
-  };
-
   const handleOpenShowreel = () => {
     // Open the primary showcase YouTube video directly
     setSelectedVideo(videoProjectsData[0]);
@@ -211,8 +202,6 @@ export default function App() {
         <Hero
           profile={profile}
           onOpenShowreel={handleOpenShowreel}
-          onUploadPhoto={handleUploadPhoto}
-          onResetPhoto={handleResetPhoto}
           t={t.hero}
           lang={lang}
         />
