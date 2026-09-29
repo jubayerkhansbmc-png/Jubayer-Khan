@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Nil Jannat';
+  src: local('Nil Jannat'), local('NilJannat'), local('Li Noor Nil Jannat'), local('LiNoorNilJannat'), local('Shonar Bangla');
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: 'Cairo', 'Nil Jannat', 'Anek Bangla', 'Hind Siliguri', 'Outfit', sans-serif;
+    --font-sans: 'Tajawal', 'Hind Siliguri', 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Emerald Forest Noir + WhatsApp Green Palette */
+    --theme-bg: #06120E;
+    --theme-bg-card: #0A1C16;
+    --theme-text: #EDF7F3;
+    --theme-accent: #25D366;
+    --theme-accent-hover: #10B981;
+  }
+
+  [data-theme="midnight"] {
+    --theme-bg: #02040A;
+    --theme-bg-card: #060E22;
+    --theme-text: #FFFFFF;
+    --theme-accent: #00F0FF;
+    --theme-accent-hover: #38BDF8;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #06120E;
+    color: #EDF7F3;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  [data-theme="midnight"] body,
+  body[data-theme="midnight"],
+  html[data-theme="midnight"] body {
+    background-color: #02040A;
+    color: #FFFFFF;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  [dir="rtl"] {
+    font-family: 'Tajawal', 'Cairo', sans-serif;
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] .font-display {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    letter-spacing: 0;
+  }
+}
+
+/* Custom continuous marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06120E;
+}
+
+[data-theme="midnight"] ::-webkit-scrollbar-track {
+  background: #02040A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #112920;
+  border-radius: 9999px;
+}
+
+[data-theme="midnight"] ::-webkit-scrollbar-thumb {
+  background: #0E1A38;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #25D366;
+}
+
+[data-theme="midnight"] ::-webkit-scrollbar-thumb:hover {
+  background: #00F0FF;
+}
+
+/* Noise overlay */
+.bg-noise {
+  background-image: radial-gradient(rgba(37, 211, 102, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Glow styles */
+.glow-accent {
+  box-shadow: 0 0 45px -8px rgba(37, 211, 102, 0.35);
+}
+
+[data-theme="midnight"] .glow-accent {
+  box-shadow: 0 0 40px -8px rgba(0, 240, 255, 0.4);
+}
+
+.glow-subtle {
+  box-shadow: 0 0 50px -15px rgba(37, 211, 102, 0.08);
+}
+
+/* ==========================================================================
+   DEFAULT EMERALD / WHATSAPP GREEN ACCENT MAPPINGS
+   ========================================================================== */
+
+/* Accent text */
+.text-accent {
+  color: #25D366;
+}
+
+/* High contrast Midnight Theme overrides */
+[data-theme="midnight"] {
+  ::selection {
+    background-color: #00F0FF;
+    color: #02040A;
+  }
+
+  /* Core backgrounds */
+  .bg-\[\#06120E\] {
+    background-color: #02040A !important;
+  }
+  .bg-\[\#06120E\]\/85 {
+    background-color: rgba(2, 4, 10, 0.9) !important;
+  }
+  .bg-\[\#06120E\]\/95 {
+    background-color: rgba(2, 4, 10, 0.98) !important;
+  }
+  .bg-\[\#0A1C16\] {
+    background-color: #060E22 !important;
+  }
+  .bg-\[\#0A1C16\]\/80 {
+    background-color: rgba(6, 14, 34, 0.85) !important;
+  }
+  .bg-\[\#071510\] {
+    background-color: #040816 !important;
+  }
+
+  /* Borders */
+  .border-emerald-500\/20 {
+    border-color: rgba(0, 240, 255, 0.3) !important;
+  }
+  .border-emerald-500\/40 {
+    border-color: rgba(0, 240, 255, 0.55) !important;
+  }
+
+  /* Accent overrides to Electric Cyan */
+  .text-\[\#25D366\] {
+    color: #00F0FF !important;
+  }
+  .bg-\[\#25D366\] {
+    background-color: #00F0FF !important;
+    color: #02040A !important;
+  }
+  .hover\:bg-\[\#10B981\]:hover {
+    background-color: #38BDF8 !important;
+    color: #02040A !important;
+  }
+  .border-\[\#25D366\] {
+    border-color: #00F0FF !important;
+  }
+  .bg-\[\#25D366\]\/15 {
+    background-color: rgba(0, 240, 255, 0.16) !important;
+    color: #00F0FF !important;
+  }
+  .bg-\[\#25D366\]\/10 {
+    background-color: rgba(0, 240, 255, 0.12) !important;
+  }
+  .shadow-\[\#25D366\]\/20,
+  .shadow-\[\#25D366\]\/25 {
+    box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.35) !important;
+  }
+  .from-\[\#25D366\] {
+    --tw-gradient-from: #00F0FF var(--tw-gradient-from-position) !important;
+  }
+  .via-\[\#10B981\] {
+    --tw-gradient-via: #38BDF8 var(--tw-gradient-via-position) !important;
+  }
+  .to-\[\#34D399\] {
+    --tw-gradient-to: #E0F2FE var(--tw-gradient-to-position) !important;
+  }
+  .focus\:border-\[\#25D366\]:focus {
+    border-color: #00F0FF !important;
+  }
+}
